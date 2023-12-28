@@ -11,9 +11,20 @@ import {
 import React from "react";
 import { Login } from "../components/authetication/Login";
 import { SignUp } from "../components/authetication/SignUp";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useEffect } from "react";
 
 const HomePage = () => {
+  const history = useHistory();
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+
+    if (user) {
+      history.push("/chats");
+    }
+  }, [history]);
   console.log("home");
+
   return (
     <Container maxW="xl" centerContent>
       <Box
