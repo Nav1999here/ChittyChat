@@ -18,11 +18,6 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 const ProfileModal = ({ user, children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const history = useHistory();
-  const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
-    history.push("/");
-  };
 
   return (
     <>
