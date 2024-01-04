@@ -7,12 +7,8 @@ import MyChats from "../components/MyChats";
 import { useEffect, useState } from "react";
 
 const ChatPage = () => {
-  const [user, setUser] = useState();
-  useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    setUser(userInfo);
-  }, []);
-  //const { user, setUser } = ChatState();
+  const { user, setUser } = ChatState();
+  const [fetchAgain, setfetchAgain] = useState(false);
 
   return (
     <div style={{ width: "100%" }}>
@@ -25,8 +21,12 @@ const ChatPage = () => {
         h="91.5vh"
         p="10px"
       >
-        {user && <MyChats user={user} />}
-        {user && <ChatBox />}
+        {user && (
+          <MyChats fetchAgain={fetchAgain} setfetchAgain={setfetchAgain} />
+        )}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setfetchAgain={setfetchAgain} />
+        )}
       </Box>
     </div>
   );
