@@ -10,6 +10,7 @@ const path = require("path");
 
 const chatRoutes = require("./routes/chatRoutes");
 const { Socket } = require("socket.io");
+const { url } = require("inspector");
 
 const app = express();
 dotenv.config();
@@ -45,6 +46,12 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
+const isDev = app.settings.env === "development";
+
+const URL = isDev
+  ? "http://localhost:3000"
+  : "https://chitty-chat-r81y.onrender.com";
+
 const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
@@ -54,7 +61,7 @@ const server = app.listen(PORT, () => {
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000",
+    origin: URL,
   },
 });
 
