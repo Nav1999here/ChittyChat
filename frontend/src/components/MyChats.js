@@ -9,10 +9,18 @@ import { Text } from "@chakra-ui/react";
 import { ChatLogics, getSender } from "../config/ChatLogics";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 
-const MyChats = ({ fetchAgain }) => {
+const MyChats = ({ fetchAgain, setfetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState("");
   const toast = useToast();
-  const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
+  const { selectedChat, setSelectedChat, user, setUser, chats, setChats } =
+    ChatState();
+
+  useEffect(() => {
+    console.log("called", fetchAgain);
+    setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
+
+    fetchChats();
+  }, [fetchAgain]);
 
   const fetchChats = async () => {
     try {
@@ -37,10 +45,6 @@ const MyChats = ({ fetchAgain }) => {
       });
     }
   };
-  useEffect(() => {
-    setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
-    fetchChats();
-  }, [fetchAgain]);
 
   return (
     <Box
@@ -82,7 +86,7 @@ const MyChats = ({ fetchAgain }) => {
         w="100%"
         h="100%"
         borderRadius="lg"
-        overflowY="hidden"
+        overflowX="auto"
       >
         {chats ? (
           <Stack overflow="scroll">

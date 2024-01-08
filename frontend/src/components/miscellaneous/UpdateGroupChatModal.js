@@ -25,7 +25,7 @@ import axios from "axios";
 import { ChatState } from "../../Context/ChatProvider";
 import UserListItem from "../UserAvatar/UserListItem";
 
-const UpdateGroupChatModal = ({ fetchAgain, setfetchAgain }) => {
+const UpdateGroupChatModal = ({ fetchAgain, setfetchAgain, fetchMessages }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setgroupChatName] = useState();
   const [selectedUsers, setselectedUsers] = useState([]);
@@ -66,6 +66,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setfetchAgain }) => {
       user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
 
       setfetchAgain(!fetchAgain);
+      fetchMessages();
       setloading(false);
     } catch (error) {
       toast({
