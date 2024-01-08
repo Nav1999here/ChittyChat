@@ -6,6 +6,7 @@ const colors = require("colors");
 const userRoutes = require("./routes/userRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleWare");
+const path = require("path");
 
 const chatRoutes = require("./routes/chatRoutes");
 const { Socket } = require("socket.io");
@@ -15,26 +16,33 @@ dotenv.config();
 connectDB();
 app.use(express.json()); //to accept json data
 
-app.get("/", (req, res) => {
-  res.send("api is running");
-});
+// app.get("/", (req, res) => {
+//   res.send("api is running");
+// });
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
+
 app.use(notFound);
 app.use(errorHandler);
 
-// app.get("/api/chat", (req, res) => {
-//   res.send(chats);
-// });
+// --------------------Deployment------------------
+const __dirname1 = path.resolve();
+console.log(process.env.NODE_ENV);
 
-// app.get("/api/chat/:id", (req, res) => {
-//   console.log(req.params);
-//   const { id } = req.params;
-//   const newChat = chats.find((chat) => chat._id === id);
-//   res.send(newChat);
-// });
+if (process.env.NODE_ENV === "production") {
+  console.log(__dirname1, "inside");
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
+  });
+} else {
+  console.log("insideelse");
+  app.get("/", (req, res) => {
+    res.send("Api is running successfully");
+  });
+}
 
 const PORT = process.env.PORT || 3000;
 
