@@ -24,9 +24,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
-app.use(notFound);
-app.use(errorHandler);
-
 // --------------------Deployment------------------
 const __dirname1 = path.resolve();
 console.log(process.env.NODE_ENV);
@@ -43,6 +40,10 @@ if (process.env.NODE_ENV === "production") {
     res.send("Api is running successfully");
   });
 }
+//-------------------Deployment---------------------
+
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
